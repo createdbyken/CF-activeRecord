@@ -18,6 +18,12 @@ class Product < ApplicationRecord
   after_save :send_notification
   after_save :push_notification, if: :discount?
 
+  # Makes a validation with a personalized message
+  validates :title, presence: { message: 'Needs to define a value for the title' }
+  validates :code, presence: { message: 'Needs to define a value for the code ' }
+
+  validates :code, uniqueness: { message: 'The code: %{value} has already been taken. Use another code' }
+
   def total
     self.price / 100
   end
